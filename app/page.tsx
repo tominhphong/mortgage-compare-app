@@ -4,6 +4,8 @@ import * as React from "react";
 import { CompareView } from "@/components/mortgage/CompareView";
 import { DecisionSummary } from "@/components/mortgage/DecisionSummary";
 import { LanguageToggle, type Language } from "@/components/mortgage/LanguageToggle";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { AffordabilityPanel } from "@/components/mortgage/AffordabilityPanel";
 import type { Scenario, MortgageInput, PaymentBreakdown } from "@/lib/mortgage/types";
 
 // ---------------------------------------------------------------------------
@@ -159,7 +161,10 @@ export default function HomePage() {
               Mortgage Scenario Comparator
             </p>
           </div>
-          <LanguageToggle language={language} onChange={setLanguage} />
+          <div className="flex items-center gap-2">
+            <LanguageToggle language={language} onChange={setLanguage} />
+            <ThemeToggle />
+          </div>
         </div>
       </header>
 
@@ -175,6 +180,33 @@ export default function HomePage() {
           />
 
           <DecisionSummary scenarios={scenarios} />
+
+          {/* Affordability panels — one per scenario, collapsible */}
+          {scenarios.length > 0 && (
+            <section className="flex flex-col gap-4">
+              <div>
+                <h2 className="text-base font-semibold">
+                  {language === "vi" ? "Kiểm Tra Khả Năng Tài Chính" : "Affordability Check"}
+                </h2>
+                <p className="text-xs text-muted-foreground">
+                  {language === "vi"
+                    ? "DTI · Quy tắc 28/36 · Dự phòng tiền mặt (mỗi kịch bản)"
+                    : "DTI · 28/36 Rule · Cash Reserves (per scenario)"}
+                </p>
+              </div>
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                {scenarios.map((scenario) => (
+                  <AffordabilityPanel
+                    key={scenario.id}
+                    breakdown={scenario.breakdown}
+                    scenarioLabel={scenario.label}
+                    language={language}
+                    defaultCollapsed={true}
+                  />
+                ))}
+              </div>
+            </section>
+          )}
         </div>
       </main>
     </div>
