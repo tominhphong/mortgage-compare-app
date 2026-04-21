@@ -66,7 +66,39 @@ export type TranslationKey =
   | "qualifiedMortgage"
   | "reservesMonths"
   | "inputsLabel"
-  | "resultsLabel";
+  | "resultsLabel"
+  // TCO keys
+  | "tcoTitle"
+  | "tcoHoldYears"
+  | "tcoTrueMonthly"
+  | "tcoNetEquity"
+  | "tcoMortgagePayments"
+  | "tcoMaintenance"
+  | "tcoUtilities"
+  | "tcoTaxBenefits"
+  | "tcoGrossCost"
+  | "tcoNetCost"
+  | "tcoHomeValue"
+  // Tax keys
+  | "taxTitle"
+  | "taxFilingStatus"
+  | "taxMarginalRate"
+  | "taxMCC"
+  | "taxItemize"
+  | "taxStandard"
+  | "taxAnnualBenefit"
+  | "taxEffectiveRate"
+  | "taxInterestDeduction"
+  | "taxSaltDeduction"
+  // Rent vs Buy keys
+  | "rvbTitle"
+  | "rvbMonthlyRent"
+  | "rvbRentGrowth"
+  | "rvbBreakEven"
+  | "rvbBuy"
+  | "rvbRent"
+  | "rvbNeutral"
+  | "rvbOpportunityCost";
 
 export type Translations = Record<TranslationKey, string>;
 
@@ -130,6 +162,38 @@ const vi: Translations = {
   reservesMonths: "tháng dự phòng",
   inputsLabel: "Thông Tin Tài Chính",
   resultsLabel: "Kết Quả Phân Tích",
+  // TCO
+  tcoTitle: "Tổng Chi Phí Sở Hữu (TCO)",
+  tcoHoldYears: "Thời gian giữ nhà",
+  tcoTrueMonthly: "Chi phí thực hàng tháng",
+  tcoNetEquity: "Vốn chủ sở hữu ròng",
+  tcoMortgagePayments: "Tổng trả nợ vay",
+  tcoMaintenance: "Bảo trì",
+  tcoUtilities: "Tiện ích",
+  tcoTaxBenefits: "Lợi ích thuế",
+  tcoGrossCost: "Tổng chi phí thô",
+  tcoNetCost: "Chi phí ròng",
+  tcoHomeValue: "Giá trị nhà cuối kỳ",
+  // Tax
+  taxTitle: "Lợi Ích Thuế 2026",
+  taxFilingStatus: "Tình trạng hộ khẩu",
+  taxMarginalRate: "Thuế suất cận biên",
+  taxMCC: "Chứng chỉ tín dụng thế chấp (MCC)",
+  taxItemize: "Nên liệt kê khấu trừ",
+  taxStandard: "Nên dùng khấu trừ tiêu chuẩn",
+  taxAnnualBenefit: "Tổng lợi ích thuế hàng năm",
+  taxEffectiveRate: "Lãi suất hiệu dụng sau thuế",
+  taxInterestDeduction: "Khấu trừ tiền lãi",
+  taxSaltDeduction: "Khấu trừ thuế địa phương (SALT)",
+  // Rent vs Buy
+  rvbTitle: "Thuê vs Mua",
+  rvbMonthlyRent: "Tiền thuê hiện tại",
+  rvbRentGrowth: "Tốc độ tăng tiền thuê",
+  rvbBreakEven: "Điểm hoà vốn",
+  rvbBuy: "Nên Mua",
+  rvbRent: "Nên Thuê",
+  rvbNeutral: "Trung Lập",
+  rvbOpportunityCost: "Chi phí cơ hội",
 };
 
 // ---------------------------------------------------------------------------
@@ -192,6 +256,38 @@ const en: Translations = {
   reservesMonths: "months reserves",
   inputsLabel: "Financial Inputs",
   resultsLabel: "Analysis Results",
+  // TCO
+  tcoTitle: "Total Cost of Ownership (TCO)",
+  tcoHoldYears: "Hold period",
+  tcoTrueMonthly: "True monthly cost",
+  tcoNetEquity: "Net equity",
+  tcoMortgagePayments: "Total mortgage payments",
+  tcoMaintenance: "Maintenance",
+  tcoUtilities: "Utilities",
+  tcoTaxBenefits: "Tax benefits",
+  tcoGrossCost: "Gross cost",
+  tcoNetCost: "Net cost",
+  tcoHomeValue: "Home value at end",
+  // Tax
+  taxTitle: "2026 Tax Implications",
+  taxFilingStatus: "Filing status",
+  taxMarginalRate: "Marginal tax rate",
+  taxMCC: "Mortgage Credit Certificate (MCC)",
+  taxItemize: "Recommend itemizing",
+  taxStandard: "Recommend standard deduction",
+  taxAnnualBenefit: "Total annual tax benefit",
+  taxEffectiveRate: "Effective rate after tax",
+  taxInterestDeduction: "Interest deduction",
+  taxSaltDeduction: "SALT deduction (capped $10K)",
+  // Rent vs Buy
+  rvbTitle: "Rent vs Buy",
+  rvbMonthlyRent: "Current monthly rent",
+  rvbRentGrowth: "Annual rent growth",
+  rvbBreakEven: "Break-even point",
+  rvbBuy: "Buy",
+  rvbRent: "Rent",
+  rvbNeutral: "Neutral",
+  rvbOpportunityCost: "Opportunity cost",
 };
 
 // ---------------------------------------------------------------------------
