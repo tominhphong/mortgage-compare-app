@@ -4,6 +4,9 @@ import * as React from "react";
 import { CompareView } from "@/components/mortgage/CompareView";
 import { DecisionSummary } from "@/components/mortgage/DecisionSummary";
 import { LanguageToggle, type Language } from "@/components/mortgage/LanguageToggle";
+import { TCOPanel } from "@/components/mortgage/TCOPanel";
+import { TaxPanel } from "@/components/mortgage/TaxPanel";
+import { RentVsBuyPanel } from "@/components/mortgage/RentVsBuyPanel";
 import type { Scenario, MortgageInput, PaymentBreakdown } from "@/lib/mortgage/types";
 
 // ---------------------------------------------------------------------------
@@ -105,6 +108,44 @@ function buildScenarios(
 let nextId = DEFAULT_INPUTS.length + 1;
 const LABELS = ["Kịch bản A", "Kịch bản B", "Kịch bản C", "Kịch bản D"];
 
+// ---------------------------------------------------------------------------
+// CollapsibleSection — native details/summary accordion (no extra dep)
+// ---------------------------------------------------------------------------
+function CollapsibleSection({
+  title,
+  children,
+  defaultOpen = false,
+}: {
+  title: string;
+  children: React.ReactNode;
+  defaultOpen?: boolean;
+}) {
+  return (
+    <details
+      className="group rounded-xl border bg-card shadow-sm"
+      open={defaultOpen}
+    >
+      <summary className="flex cursor-pointer select-none list-none items-center justify-between px-4 py-3 text-sm font-semibold [&::-webkit-details-marker]:hidden">
+        {title}
+        <svg
+          className="size-4 shrink-0 text-muted-foreground transition-transform group-open:rotate-180"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={2}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          <path d="m6 9 6 6 6-6" />
+        </svg>
+      </summary>
+      <div className="px-0 pb-0">{children}</div>
+    </details>
+  );
+}
+
 export default function HomePage() {
   const [scenarioItems, setScenarioItems] = React.useState(DEFAULT_INPUTS);
   const [language, setLanguage] = React.useState<Language>("vi");
@@ -146,6 +187,9 @@ export default function HomePage() {
     nextId = DEFAULT_INPUTS.length + 1;
   }
 
+  // Use first scenario's input for analysis panels (most relevant single scenario)
+  const primaryInput = scenarioItems[0]?.input;
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -175,6 +219,42 @@ export default function HomePage() {
           />
 
           <DecisionSummary scenarios={scenarios} />
+
+          {/* Advanced analysis panels — collapsible sections */}
+          {primaryInput && (
+            <div className="flex flex-col gap-4">
+              <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+                Phân Tích Nâng Cao / Advanced Analysis
+                <span className="ml-2 text-xs font-normal normal-case">
+                  (dựa trên kịch bản đầu tiên / based on first scenario)
+                </span>
+              </h2>
+
+              {/* TCO Section */}
+              <CollapsibleSection
+                title="Tổng Chi Phí Sở Hữu / Total Cost of Ownership (TCO)"
+                defaultOpen
+              >
+                <TCOPanel mortgageInput={primaryInput} />
+              </CollapsibleSection>
+
+              {/* Tax Section */}
+              <CollapsibleSection
+                title="Lợi Ích Thuế 2026 / Tax Implications"
+                defaultOpen={false}
+              >
+                <TaxPanel mortgageInput={primaryInput} />
+              </CollapsibleSection>
+
+              {/* Rent vs Buy Section */}
+              <CollapsibleSection
+                title="Thuê vs Mua / Rent vs Buy Break-Even"
+                defaultOpen={false}
+              >
+                <RentVsBuyPanel mortgageInput={primaryInput} />
+              </CollapsibleSection>
+            </div>
+          )}
         </div>
       </main>
     </div>
