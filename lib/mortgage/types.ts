@@ -99,8 +99,7 @@ export interface LabeledScenario extends PaymentBreakdown {
 export type WinnerType =
   | 'lowestMonthly'
   | 'lowestTotalInterest'
-  | 'smallestDown'
-  | 'fastestPayoff';
+  | 'smallestDown';
 
 /**
  * Badge shown on a scenario card highlighting its win category.
