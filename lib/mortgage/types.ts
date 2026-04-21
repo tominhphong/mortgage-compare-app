@@ -10,8 +10,6 @@ export type TermYears = (typeof SUPPORTED_TERMS)[number];
 
 /**
  * Input parameters for a single mortgage scenario.
- * Caller provides either downPayment (dollars) or the calculator derives it
- * from homePrice and the implied percentage.
  */
 export interface MortgageInput {
   /** Purchase price of the home in USD */
@@ -34,7 +32,6 @@ export interface MortgageInput {
 
 /**
  * Full payment breakdown for a single mortgage scenario.
- * All monthly values are in USD. Lifetime values cover the full loan term.
  */
 export interface PaymentBreakdown {
   /** Monthly principal + interest payment */
@@ -67,16 +64,24 @@ export interface PaymentBreakdown {
  * Single row of an amortization schedule.
  */
 export interface AmortizationEntry {
-  /** Payment number (1-based) */
   month: number;
-  /** Total payment for this period (P&I) */
   payment: number;
-  /** Principal portion of this payment */
   principal: number;
-  /** Interest portion of this payment */
   interest: number;
-  /** Remaining loan balance after this payment */
   balance: number;
+}
+
+/**
+ * A scenario = input + computed breakdown + display metadata.
+ * Used throughout UI state and comparison logic.
+ */
+export interface Scenario {
+  /** Unique scenario identifier */
+  id: string;
+  /** Human-readable label (e.g. "Kịch bản A: 10% down @ 7%") */
+  label: string;
+  input: MortgageInput;
+  breakdown: PaymentBreakdown;
 }
 
 /**
@@ -84,34 +89,42 @@ export interface AmortizationEntry {
  * used inside CompareResult.
  */
 export interface LabeledScenario extends PaymentBreakdown {
-  /** Unique scenario identifier (e.g. "scenario-1") */
   id: string;
-  /** Human-readable label (e.g. "30yr @ 7%") */
   label: string;
+}
+
+/**
+ * Winner category for side-by-side compare summary.
+ */
+export type WinnerType =
+  | 'lowestMonthly'
+  | 'lowestTotalInterest'
+  | 'smallestDown'
+  | 'fastestPayoff';
+
+/**
+ * Badge shown on a scenario card highlighting its win category.
+ */
+export interface WinnerBadge {
+  type: WinnerType;
+  scenarioId: string;
+  scenarioLabel: string;
 }
 
 /**
  * Result of comparing two or more mortgage scenarios.
  */
 export interface CompareResult {
-  /** All scenarios with their full breakdowns */
   scenarios: LabeledScenario[];
-  /** IDs of the scenario that wins each category */
   rankings: {
-    /** Scenario with lowest total monthly payment */
     lowestMonthlyPayment: string;
-    /** Scenario with lowest lifetime interest paid */
     lowestTotalInterest: string;
-    /** Scenario requiring least cash at closing (down payment) */
     lowestCashAtClose: string;
-    /** Scenario with earliest payoff date / shortest term */
     fastestPayoff: string;
   };
   /**
-   * Pairwise break-even in months: how many months until Scenario A's
-   * cumulative savings in monthly payments offset its higher upfront cost
-   * vs Scenario B.
-   * breakEvenMonths[idA][idB] = months for A to break even against B
+   * Pairwise break-even in months.
+   * breakEvenMonths[idA][idB] = months for A to break even against B.
    */
   breakEvenMonths: Record<string, Record<string, number>>;
 }
