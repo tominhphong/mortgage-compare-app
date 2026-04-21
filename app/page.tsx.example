@@ -1,0 +1,91 @@
+"use client";
+/**
+ * page.tsx.example
+ * Integration demo showing how useScenarios + useLanguage wire together.
+ * DO NOT rename to page.tsx — UI agent owns page.tsx.
+ * Brain/Integration agent will merge this usage pattern into page.tsx.
+ */
+
+import { useScenarios } from "@/hooks/use-scenarios";
+import { useLanguage } from "@/hooks/use-language";
+import PrintButton from "@/components/mortgage/PrintButton";
+import ShareLinkButton from "@/components/mortgage/ShareLinkButton";
+
+export default function Page() {
+  // --- State: scenario list + URL/localStorage sync ---
+  const {
+    scenarios,
+    addScenario,
+    updateScenario,
+    removeScenario,
+    resetScenarios,
+  } = useScenarios();
+
+  // --- i18n: VN/EN toggle, default vi ---
+  const { t, language, setLanguage, toggleLanguage } = useLanguage();
+
+  return (
+    <main className="min-h-screen p-8">
+      {/* App header */}
+      <h1 className="text-2xl font-bold">{t("appTitle")}</h1>
+      <p className="text-gray-500">{t("appSubtitle")}</p>
+
+      {/* Language toggle */}
+      <button
+        onClick={toggleLanguage}
+        className="no-print mt-2 text-sm underline"
+      >
+        {language === "vi" ? "Switch to English" : "Chuyển sang Tiếng Việt"}
+      </button>
+
+      {/* Action bar */}
+      <div className="no-print mt-4 flex gap-2">
+        <button onClick={() => addScenario()}>{t("addScenario")}</button>
+        <button onClick={resetScenarios}>{t("reset")}</button>
+        <ShareLinkButton label={t("shareLink")} />
+        <PrintButton label={t("printReport")} />
+      </div>
+
+      {/* Scenario cards — UI agent renders actual card components */}
+      {scenarios.length === 0 ? (
+        <p className="mt-8 text-gray-400">{t("noScenarios")}</p>
+      ) : (
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {scenarios.map((scenario) => (
+            <div key={scenario.id} className="scenario-card rounded border p-4">
+              {/* Editable label */}
+              <input
+                value={scenario.label}
+                onChange={(e) =>
+                  updateScenario(scenario.id, { label: e.target.value })
+                }
+                className="mb-2 w-full font-semibold"
+              />
+
+              {/* Key fields — UI agent builds full form */}
+              <p>
+                {t("homePrice")}: ${scenario.homePrice.toLocaleString()}
+              </p>
+              <p>
+                {t("downPayment")}: ${scenario.downPayment.toLocaleString()}
+              </p>
+              <p>
+                {t("rate")}: {scenario.rate}%
+              </p>
+              <p>
+                {t("termYears")}: {scenario.termYears} {t("termYearsUnit")}
+              </p>
+
+              <button
+                onClick={() => removeScenario(scenario.id)}
+                className="no-print mt-2 text-red-500 text-sm"
+              >
+                {t("removeScenario")}
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+    </main>
+  );
+}
