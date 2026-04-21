@@ -4,6 +4,7 @@ import * as React from "react";
 import { CompareView } from "@/components/mortgage/CompareView";
 import { DecisionSummary } from "@/components/mortgage/DecisionSummary";
 import { LanguageToggle, type Language } from "@/components/mortgage/LanguageToggle";
+import { AdvancedPanel } from "@/components/mortgage/AdvancedPanel";
 import type { Scenario, MortgageInput, PaymentBreakdown } from "@/lib/mortgage/types";
 
 // ---------------------------------------------------------------------------
@@ -175,8 +176,47 @@ export default function HomePage() {
           />
 
           <DecisionSummary scenarios={scenarios} />
+
+          {/* Advanced analysis — expandable section per scenario */}
+          {scenarios.length > 0 && (
+            <section className="flex flex-col gap-4">
+              <h2 className="text-base font-semibold">
+                Phân Tích Nâng Cao / Advanced Analysis
+              </h2>
+              <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+                {scenarios.map((scenario) => (
+                  <AdvancedScenarioSection key={scenario.id} scenario={scenario} />
+                ))}
+              </div>
+            </section>
+          )}
         </div>
       </main>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Per-scenario expandable advanced panel
+// ---------------------------------------------------------------------------
+function AdvancedScenarioSection({ scenario }: { scenario: Scenario }) {
+  const [open, setOpen] = React.useState(false);
+
+  return (
+    <div className="flex flex-col gap-2">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        className="flex items-center justify-between w-full rounded-lg border border-border bg-muted/40 px-4 py-2.5 text-sm font-medium hover:bg-muted transition-colors"
+      >
+        <span>{scenario.label} — Phân tích nâng cao</span>
+        <span className="text-muted-foreground text-xs">
+          {open ? "▲ Ẩn" : "▼ Xem"}
+        </span>
+      </button>
+      {open && (
+        <AdvancedPanel breakdown={scenario.breakdown} input={scenario.input} />
+      )}
     </div>
   );
 }
