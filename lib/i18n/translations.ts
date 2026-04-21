@@ -44,7 +44,29 @@ export type TranslationKey =
   | "perMonth"
   | "saving"
   | "noScenarios"
-  | "addFirst";
+  | "addFirst"
+  // Affordability calculator keys
+  | "affordability"
+  | "grossIncome"
+  | "otherDebt"
+  | "liquidAssets"
+  | "livingExpenses"
+  | "frontEndRatio"
+  | "backEndRatio"
+  | "reserves"
+  | "maxAffordable"
+  | "maxHomePrice"
+  | "cashToClose"
+  | "closingCosts"
+  | "pass"
+  | "fail"
+  | "warning"
+  | "affordabilityTitle"
+  | "affordabilitySubtitle"
+  | "qualifiedMortgage"
+  | "reservesMonths"
+  | "inputsLabel"
+  | "resultsLabel";
 
 export type Translations = Record<TranslationKey, string>;
 
@@ -86,6 +108,28 @@ const vi: Translations = {
   saving: "Tiết kiệm",
   noScenarios: "Chưa có kịch bản nào",
   addFirst: "Nhấn 'Thêm Kịch Bản' để bắt đầu so sánh",
+  // Affordability
+  affordability: "Khả Năng Tài Chính",
+  affordabilityTitle: "Kiểm Tra Tỷ Lệ DTI & 28/36",
+  affordabilitySubtitle: "Nhập thu nhập và nợ hiện tại để kiểm tra điều kiện vay",
+  grossIncome: "Thu Nhập Gộp/Tháng",
+  otherDebt: "Nợ Khác/Tháng",
+  livingExpenses: "Chi Phí Sinh Hoạt/Tháng",
+  liquidAssets: "Tài Sản Lưu Động",
+  frontEndRatio: "Tỷ Lệ Chi Phí Nhà",
+  backEndRatio: "Tỷ Lệ Nợ Tổng (DTI)",
+  reserves: "Dự Phòng Tiền Mặt",
+  maxAffordable: "Trả Hàng Tháng Tối Đa",
+  maxHomePrice: "Giá Nhà Tối Đa (Ước Tính)",
+  cashToClose: "Tiền Cần Khi Ký Hợp Đồng",
+  closingCosts: "Chi Phí Đóng Cửa (Ước Tính)",
+  pass: "Đạt",
+  fail: "Không Đạt",
+  warning: "Cảnh Báo",
+  qualifiedMortgage: "Giới Hạn QM (43%)",
+  reservesMonths: "tháng dự phòng",
+  inputsLabel: "Thông Tin Tài Chính",
+  resultsLabel: "Kết Quả Phân Tích",
 };
 
 // ---------------------------------------------------------------------------
@@ -126,6 +170,28 @@ const en: Translations = {
   saving: "Saves",
   noScenarios: "No scenarios yet",
   addFirst: "Click 'Add Scenario' to start comparing",
+  // Affordability
+  affordability: "Affordability",
+  affordabilityTitle: "DTI & 28/36 Rule Check",
+  affordabilitySubtitle: "Enter income and debts to check qualification",
+  grossIncome: "Gross Monthly Income",
+  otherDebt: "Other Monthly Debt",
+  livingExpenses: "Monthly Living Expenses",
+  liquidAssets: "Liquid Assets",
+  frontEndRatio: "Housing Ratio (Front-End)",
+  backEndRatio: "Total DTI (Back-End)",
+  reserves: "Cash Reserves",
+  maxAffordable: "Max Monthly PITI",
+  maxHomePrice: "Max Home Price (Est.)",
+  cashToClose: "Cash to Close",
+  closingCosts: "Est. Closing Costs",
+  pass: "Pass",
+  fail: "Fail",
+  warning: "Warning",
+  qualifiedMortgage: "QM Limit (43%)",
+  reservesMonths: "months reserves",
+  inputsLabel: "Financial Inputs",
+  resultsLabel: "Analysis Results",
 };
 
 // ---------------------------------------------------------------------------
