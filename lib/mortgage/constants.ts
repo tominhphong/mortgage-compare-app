@@ -30,3 +30,25 @@ export const SUPPORTED_TERMS = [15, 20, 30] as const;
 
 /** Months per year — used throughout formulas */
 export const MONTHS_PER_YEAR = 12;
+
+// ---------------------------------------------------------------------------
+// Texas holding cost defaults (Sprint 3 — advanced scenarios)
+// ---------------------------------------------------------------------------
+
+/** Average monthly HOA dues for North Texas / DFW subdivisions */
+export const TEXAS_HOA_AVG = 250; // $/month
+
+/** Average MUD (Municipal Utility District) tax rate for North Texas */
+export const TEXAS_MUD_RATE = 0.0075; // 0.75% annual of home value
+
+/** Average annual PID (Public Improvement District) assessment for North Texas */
+export const TEXAS_PID_ANNUAL_AVG = 1500; // $/year flat
+
+/** Default annual maintenance reserve — mid-age homes (5–20 years) */
+export const MAINTENANCE_PERCENT_DEFAULT = 0.015; // 1.5%
+
+/** Annual maintenance reserve — new construction (<5 years) */
+export const MAINTENANCE_PERCENT_NEW = 0.01; // 1%
+
+/** Annual maintenance reserve — older homes (>20 years) */
+export const MAINTENANCE_PERCENT_OLD = 0.04; // 4%
