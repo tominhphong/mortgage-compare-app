@@ -5,7 +5,7 @@ compatibility_date = "2025-01-01"
 [[d1_databases]]
 binding = "DB"
 database_name = "mortgage-compare-db"
-database_id = "REPLACE_WITH_YOUR_D1_DATABASE_ID"
+database_id = "54239421-1c01-4459-bb1d-d36fcd07b674"
 
 [[r2_buckets]]
 binding = "REPORTS"

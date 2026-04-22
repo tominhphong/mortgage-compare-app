@@ -97,7 +97,7 @@ export default function CloudScenariosList({
                   <div className="flex-1 min-w-0">
                     <p className="truncate font-medium">{rec.label}</p>
                     <p className="text-xs text-slate-500">
-                      {new Date(rec.updated_at).toLocaleString()}
+                      {new Date((rec.updated_at ?? rec.created_at) * 1000).toLocaleString()}
                     </p>
                   </div>
                   <div className="flex gap-2">

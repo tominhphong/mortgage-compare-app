@@ -19,10 +19,12 @@ export interface CloudScenarioRecord {
   id: string;
   device_id: string;
   label: string;
-  inputs_json: string;
-  outputs_json: string | null;
+  inputs: Record<string, unknown>;
+  outputs?: Record<string, unknown>;
+  /** Unix epoch seconds (not ms) — multiply by 1000 before passing to Date */
   created_at: number;
-  updated_at: number;
+  /** Unix epoch seconds — may be undefined on POST response (only list/get include it) */
+  updated_at?: number;
 }
 
 export interface ApiEnvelope<T> {
@@ -86,8 +88,7 @@ export function saveScenarioCloud(
     body: JSON.stringify({
       device_id: deviceId,
       label: payload.label,
-      inputs_json: JSON.stringify(payload.inputs),
-      outputs_json: null,
+      inputs: payload.inputs,
     }),
   });
 }
@@ -111,13 +112,9 @@ export function deleteScenarioCloud(id: string): Promise<SyncResult<null>> {
   });
 }
 
-/** Parse a cloud record's inputs_json back into a structured object. */
+/** Return the parsed inputs object from a cloud record (Worker already parses JSON). */
 export function parseCloudScenario<T = Record<string, unknown>>(
   record: CloudScenarioRecord
 ): T | null {
-  try {
-    return JSON.parse(record.inputs_json) as T;
-  } catch {
-    return null;
-  }
+  return (record.inputs ?? null) as T | null;
 }
