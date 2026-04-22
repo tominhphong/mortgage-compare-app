@@ -5,6 +5,8 @@ import { CompareView } from "@/components/mortgage/CompareView";
 import { DecisionSummary } from "@/components/mortgage/DecisionSummary";
 import { LanguageToggle, type Language } from "@/components/mortgage/LanguageToggle";
 import { ThemeToggle } from "@/components/theme-toggle";
+import SaveCloudButton from "@/components/mortgage/SaveCloudButton";
+import CloudScenariosList from "@/components/mortgage/CloudScenariosList";
 import { AffordabilityPanel } from "@/components/mortgage/AffordabilityPanel";
 import { TCOPanel } from "@/components/mortgage/TCOPanel";
 import { TaxPanel } from "@/components/mortgage/TaxPanel";
@@ -193,6 +195,24 @@ export default function HomePage() {
   // Use first scenario's input for analysis panels (most relevant single scenario)
   const primaryInput = scenarioItems[0]?.input;
 
+  // Cloud sync payload: save all current scenario items (label + inputs array)
+  const cloudPayload = scenarioItems.length
+    ? {
+        label: scenarioItems[0]?.label ?? "My scenarios",
+        inputs: { items: scenarioItems } as Record<string, unknown>,
+      }
+    : null;
+
+  function handleLoadCloud(inputs: Record<string, unknown>, label: string) {
+    const items = (inputs as { items?: typeof scenarioItems }).items;
+    if (Array.isArray(items) && items.length > 0) {
+      setScenarioItems(items);
+    } else {
+      // Backward-compat: single scenario payload shape
+      setScenarioItems([{ id: `sc-${nextId++}`, label, input: inputs as unknown as MortgageInput }]);
+    }
+  }
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -207,6 +227,7 @@ export default function HomePage() {
             </p>
           </div>
           <div className="flex items-center gap-2">
+            <SaveCloudButton payload={cloudPayload} language={language} />
             <LanguageToggle language={language} onChange={setLanguage} />
             <ThemeToggle />
           </div>
@@ -216,6 +237,7 @@ export default function HomePage() {
       {/* Main content */}
       <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-8">
+          <CloudScenariosList onLoad={handleLoadCloud} language={language} />
           <CompareView
             scenarios={scenarios}
             onUpdate={handleUpdate}
