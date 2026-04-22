@@ -1,0 +1,12 @@
+name = "mortgage-compare-api"
+main = "src/worker.ts"
+compatibility_date = "2025-01-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "mortgage-compare-db"
+database_id = "REPLACE_WITH_YOUR_D1_DATABASE_ID"
+
+[[r2_buckets]]
+binding = "REPORTS"
+bucket_name = "mortgage-compare-reports"
