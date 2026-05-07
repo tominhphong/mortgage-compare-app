@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Mortgage Compare App
 
-## Getting Started
+> Side-by-side mortgage scenario comparison for home buyers and realtors.
+> Built for real client conversations during showings.
 
-First, run the development server:
+![Live](https://img.shields.io/badge/Live-mortgage--compare--app.vercel.app-22C55E)
+![Stack](https://img.shields.io/badge/Next.js-15-000)
+![Stack](https://img.shields.io/badge/TypeScript-5-3178C6)
+![Stack](https://img.shields.io/badge/Tailwind-4-38BDF8)
+![Stack](https://img.shields.io/badge/shadcn/ui-latest-000)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+🔗 **Live demo:** https://mortgage-compare-app.vercel.app
+
+## The problem
+
+Buyers comparing loan scenarios juggle 3-4 different online calculators, each with different inputs and assumptions. Apples-to-apples comparison is nearly impossible — and when a realtor pulls out a phone calculator mid-showing, they lose narrative control.
+
+## The solution
+
+A single-screen tool that compares multiple loan scenarios at once:
+
+- 📊 Monthly P&I per scenario
+- 💰 Total interest over loan life
+- ⚖️ Break-even point between two scenarios
+- 🏠 PMI auto-calc when down payment <20%
+- 📅 Bi-weekly vs monthly payment comparison
+
+Designed mobile-first so a realtor can run it on a tablet during a showing.
+
+## 30-second demo (architecture)
+
+```mermaid
+flowchart LR
+    A[User inputs<br/>price + down + rate + term] --> B[Next.js 15 App Router<br/>Server Components]
+    B --> C[Pure-function calc engine<br/>P&I, PMI, amortization]
+    C --> D[shadcn/ui table<br/>side-by-side scenarios]
+    D --> E[Real-time recalc<br/>useTransition]
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Layer | Tech |
+|---|---|
+| Framework | Next.js 15 App Router |
+| Language | TypeScript 5 |
+| Styling | Tailwind CSS 4 |
+| Components | shadcn/ui (Radix + Tailwind) |
+| Hosting | Vercel (Edge runtime) |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Setup
 
-## Learn More
+```bash
+git clone https://github.com/tominhphong/mortgage-compare-app.git
+cd mortgage-compare-app && npm install
+npm run dev   # http://localhost:3000
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Outcome
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Used live in client showings to demonstrate "rate buy-down vs more down payment" tradeoffs
+- 0 npm runtime dependencies for math (pure TS calc engine, no `mortgage-js` libs)
+- Lighthouse mobile score 95+
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Built by [Phong To](https://tominhphong.com) with [Claude Code](https://claude.com/claude-code).
